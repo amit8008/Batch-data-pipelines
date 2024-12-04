@@ -23,11 +23,13 @@ object GettingDataBooksDbDataPSql extends App {
   println(s"dbname: ${config.getString("postgresqldb.dbName")}")
 
   val connectionProperties = new Properties()
-  connectionProperties.put("user", "amitsingh")
-  connectionProperties.put("password", "amitsingh123")
+  connectionProperties.put("user", config.getString("postgresqldb.username"))
+  connectionProperties.put("password", config.getString("postgresqldb.password"))
 
   val booksSaleDf = spark.read
-    .jdbc("jdbc:postgresql://host.docker.internal:5432/booksdb", "public.sales", connectionProperties)
+    .jdbc(config.getString("postgresqldb.dbUrl"),
+      config.getString("postgresqldb.dbName"),
+      connectionProperties)
     .drop(col("ordered"))
 
   booksSaleDf.show(false)
