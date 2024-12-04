@@ -26,3 +26,4 @@ spark-submit --class GettingDataBooksDbDataPSql \
 --conf spark.driver.extraJavaOptions=-Dconfig.file=/opt/bitnami/spark/amit/conf/application.conf \
 batch_data_piplines-assembly-0.1.0-SNAPSHOT.jar
 ```
+
