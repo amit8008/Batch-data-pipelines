@@ -16,19 +16,20 @@ object GettingDataBooksDbDataPSql extends App {
   import spark.implicits._
 
   val config: Config = ConfigFactory.load()
+  val databaseConfig = config.getConfig("com.amit.database")
 
-  println(s"User: ${config.getString("postgresqldb.username")}")
-  println(s"password: ${config.getString("postgresqldb.password")}")
-  println(s"dburl: ${config.getString("postgresqldb.dbUrl")}")
-  println(s"dbname: ${config.getString("postgresqldb.dbName")}")
+  println(s"User: ${databaseConfig.getString("postgresqldb.username")}")
+  println(s"password: ${databaseConfig.getString("postgresqldb.password")}")
+  println(s"dburl: ${databaseConfig.getString("postgresqldb.dbUrl")}")
+  println(s"dbname: ${databaseConfig.getString("postgresqldb.dbName")}")
 
   val connectionProperties = new Properties()
-  connectionProperties.put("user", config.getString("postgresqldb.username"))
-  connectionProperties.put("password", config.getString("postgresqldb.password"))
+  connectionProperties.put("user", databaseConfig.getString("postgresqldb.username"))
+  connectionProperties.put("password", databaseConfig.getString("postgresqldb.password"))
 
   val booksSaleDf = spark.read
-    .jdbc(config.getString("postgresqldb.dbUrl"),
-      config.getString("postgresqldb.dbName"),
+    .jdbc(databaseConfig.getString("postgresqldb.dbUrl"),
+      databaseConfig.getString("postgresqldb.dbName"),
       connectionProperties)
     .drop(col("ordered"))
 
