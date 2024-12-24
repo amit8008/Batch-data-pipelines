@@ -1,6 +1,7 @@
 package com.amit.etl.batch
 
 import com.typesafe.config.{Config, ConfigFactory}
+import org.apache.log4j.Logger
 import org.apache.spark.sql.{SaveMode, SparkSession}
 
 import java.util.Properties
@@ -11,6 +12,9 @@ object postgresToMysql extends App {
   val config: Config = ConfigFactory.load()
   val postgresDBConfig = config.getConfig("com.amit.database.postgresqldb")
   val mysqlDBConfig = config.getConfig("com.amit.database.mysqldb")
+
+  // Logger
+  val logger = Logger.getLogger(getClass.getName)
 
   // connection properties of postgresql
   val psqlConnProperties = new Properties()
@@ -39,7 +43,7 @@ object postgresToMysql extends App {
 
   booksSalesDb.show(false)
   booksSalesDb.printSchema()
-  println(s"Books sales table count - ${booksSalesDb.count()}")
+  logger.info(s"Books sales table count - ${booksSalesDb.count()}")
 
   // Writing sales data to mysql
   booksSalesDb.write
