@@ -27,3 +27,37 @@ spark-submit --class GettingDataBooksDbDataPSql \
 batch_data_piplines-assembly-0.1.0-SNAPSHOT.jar
 ```
 
+### ETL pipeline to move postgres tables to mysql table
+
+creating database in mysql if not exists  
+```sql
+CREATE DATABASE IF NOT EXISTS booksdb 
+```
+
+postgres dataframe Schema
+```
+root
+ |-- id: integer (nullable = true)
+ |-- customerid: integer (nullable = true)
+ |-- total: decimal(10,2) (nullable = true)
+ |-- ordered: timestamp (nullable = true)
+ |-- shipped: date (nullable = true)
+ |-- ordered_date: date (nullable = true)
+```
+
+mysql describe table sales
+```
+mysql> describe sales;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| id           | int           | YES  |     | NULL    |       |
+| customerid   | int           | YES  |     | NULL    |       |
+| total        | decimal(10,2) | YES  |     | NULL    |       |
+| ordered      | timestamp     | YES  |     | NULL    |       |
+| shipped      | date          | YES  |     | NULL    |       |
+| ordered_date | date          | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+```
+
