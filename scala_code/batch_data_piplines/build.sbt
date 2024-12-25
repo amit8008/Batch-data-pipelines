@@ -10,7 +10,8 @@ lazy val root = (project in file("."))
       "org.apache.spark" %% "spark-sql" % "3.5.1" % "provided",
       "org.postgresql" % "postgresql" % "42.7.4" % "provided",
       "mysql" % "mysql-connector-java" % "8.0.33" % "provided",
-      "com.typesafe" % "config" % "1.4.2"
+      "com.typesafe" % "config" % "1.4.2",
+      "com.mchange" % "c3p0" % "0.10.1"
     ),
     //    assembly / assemblyJarName := "spark-batch_data-pipeline-1.0.jar",
 
