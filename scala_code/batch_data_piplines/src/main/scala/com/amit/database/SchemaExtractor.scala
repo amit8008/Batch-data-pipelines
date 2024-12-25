@@ -2,12 +2,17 @@ package com.amit.database
 
 import com.mchange.v2.c3p0.ComboPooledDataSource
 import com.typesafe.config.{Config, ConfigFactory}
+import org.apache.log4j.Logger
+
 import java.sql.Connection
 
 object SchemaExtractor extends App {
   // Getting values from application.conf
   val config: Config = ConfigFactory.load()
   val postgresDBConfig = config.getConfig("com.amit.database.postgresqldb")
+
+  // Logger
+  val logger = Logger.getLogger(getClass.getName)
 
   // Create the C3P0 connection pool (Singleton)
   lazy val cpds = new ComboPooledDataSource()
@@ -30,8 +35,8 @@ object SchemaExtractor extends App {
     val columns = getConnection.getMetaData.getColumns(null, null, tableName, null)
     var schema = Map.empty[String, String]
     while (columns.next()){
-      println(s"COLUMN_NAME - ${columns.getString("COLUMN_NAME")}")
-      println(s"TYPE_NAME - ${columns.getString("TYPE_NAME")}")
+      logger.info(s"COLUMN_NAME - ${columns.getString("COLUMN_NAME")}")
+      logger.info(s"TYPE_NAME - ${columns.getString("TYPE_NAME")}")
       schema += columns.getString("COLUMN_NAME") -> columns.getString("TYPE_NAME")
     }
     schema
